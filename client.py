@@ -14,7 +14,7 @@ from common import *
 def main():
     zmqc = zmq.Context()
     zmqs = zmqc.socket(zmq.PUSH)
-    zmqs.connect('tcp://localhost:4324')
+    zmqs.connect('tcp://sw.w-nz.com:4324')
     while True:
         print 'Preparing'
         r_params = random_qbit_params()

@@ -6,7 +6,7 @@ def main():
     with open('data.jsons', 'a') as f:
         zmqc = zmq.Context()
         zmqs = zmqc.socket(zmq.PULL)
-        zmqs.bind('tcp://127.0.0.1:4324')
+        zmqs.bind('tcp://*:4324')
         while True:
             d = zmqs.recv_json()
             print 'Message ...'
