@@ -1,3 +1,4 @@
+import multiprocessing
 import random
 import time
 import json
@@ -12,11 +13,15 @@ import scipy.linalg as la
 from common import *
 
 def main():
+    for n in xrange(multiprocessing.cpu_count()):
+        multiprocessing.Process(target=worker, args=(n,)).start()
+
+def worker(worker):
     zmqc = zmq.Context()
     zmqs = zmqc.socket(zmq.PUSH)
     zmqs.connect('tcp://sw.w-nz.com:4324')
     while True:
-        print 'Preparing'
+        print worker, 'Preparing'
         r_params = random_qbit_params()
         s_params = random_qbit_params()
         r = qbit(*r_params)
@@ -24,7 +29,7 @@ def main():
         N = random.randint(1,8)
         n = N * 8 * 2
         initial = [random.random() for x in range(n)]
-        print '  minimizing'
+        print worker, '  minimizing'
         xs, duration = minimize(r, s, N, initial)
         res = {'N': N,
                'r': r_params,
@@ -32,7 +37,7 @@ def main():
                'duration': duration,
                'initial': initial,
                'xs': tuple(xs)}
-        print '  sending'
+        print worker, '  sending'
         zmqs.send_json(res)
 
 def minimize(r, s, N, initial):
