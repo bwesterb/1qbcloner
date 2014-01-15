@@ -17,6 +17,7 @@ def main():
             for k, t in {'N': int,
                          'duration': float,
                          'initial': list,
+                         'what', basestring,
                          'r': list,
                          's': list,
                          'xs': list}.iteritems():

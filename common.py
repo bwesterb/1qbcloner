@@ -24,7 +24,7 @@ def unitary(phi, chi, psi):
                        cmath.exp(-1j*psi) * math.cos(phi)]])
 
 def dt(r, s):
-    return float(tracenorm(r-s).real)
+    return tracenorm(r-s).real
 
 def absm(m):
     return la.sqrtm(m.H * m)
@@ -106,11 +106,27 @@ def xs_to_imgs(xs, N, r, s):
     img_s = sum([E.H * s * E for E in Es])
     return img_r, img_s
 
-def cloningfidelity(xs, r, s, N, rr, ss):
+def what_rastegin(xs, r, s, N, rr, ss):
     img_r, img_s = xs_to_imgs(xs, N, r, s)
     if img_r is None or img_s is None:
         return 1001
     return 2 - fidelity(img_r, rr)**2 - fidelity(img_s, ss)**2
+def what_df(xs, r, s, N, rr, ss):
+    img_r, img_s = xs_to_imgs(xs, N, r, s)
+    if img_r is None or img_s is None:
+        return 1001
+    return math.acos(fidelity(img_r, rr)) + math.acos(fidelity(img_s, ss))
+def what_dt(xs, r, s, N, rr, ss):
+    img_r, img_s = xs_to_imgs(xs, N, r, s)
+    if img_r is None or img_s is None:
+        return 1001
+    return dt(img_r, rr) + dt(img_s, ss)
+
+WHAT_MAP = {
+        'rastegin': what_rastegin,
+        'dt': what_dt,
+        'df': what_df}
+
 
 def less_than_the_idenity_constraint(xs, N):
     Es = xs_to_Es(xs, N)
