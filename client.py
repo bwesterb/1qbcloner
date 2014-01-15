@@ -40,7 +40,7 @@ def worker(worker):
                'xs': tuple(xs),
                'what': what}
         print worker, '  sending', fun
-        #zmqs.send_json(res)
+        zmqs.send_json(res)
 
 def minimize(r, s, N, initial, what):
     rr = np.kron(r, r)
