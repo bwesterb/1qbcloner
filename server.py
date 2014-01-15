@@ -3,6 +3,7 @@ import zmq
 import json
 
 def main():
+    N = 0
     with open('data.jsons', 'a') as f:
         zmqc = zmq.Context()
         zmqs = zmqc.socket(zmq.PULL)
@@ -17,7 +18,7 @@ def main():
             for k, t in {'N': int,
                          'duration': float,
                          'initial': list,
-                         'what', basestring,
+                         'what': basestring,
                          'r': list,
                          's': list,
                          'xs': list}.iteritems():
@@ -41,7 +42,8 @@ def main():
             f.write(json.dumps(d))
             f.write('\n')
             f.flush()
-            print '  ok'
+            N += 1
+            print '  ok', N
 
 if __name__ == '__main__':
     main()
