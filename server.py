@@ -12,7 +12,7 @@ def main():
             d = zmqs.recv_json()
             print 'Message ...'
             if tuple(sorted(d)) != tuple(map(unicode, (
-                    u'N', u'duration', u'initial', u'r', u's', u'xs'))):
+                    'N', 'duration', 'initial', 'r', 's', 'what', 'xs'))):
                 print '  Invalid keys.   Skipping ...'
                 continue
             for k, t in {'N': int,
